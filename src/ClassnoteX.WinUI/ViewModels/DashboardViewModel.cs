@@ -16,8 +16,6 @@ public partial class DashboardViewModel : ObservableObject
     public ObservableCollection<Session> RecentSessions { get; } = new();
 
     private readonly INavigationService _navigationService;
-
-    private readonly INavigationService _navigationService;
     private readonly ISessionRepository _sessionRepository;
 
     public DashboardViewModel()
