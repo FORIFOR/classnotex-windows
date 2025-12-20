@@ -3,32 +3,45 @@
 
 $ErrorActionPreference = "Stop"
 
-$SHERPA_VERSION = "1.9.13" # Example version
+$SHERPA_VERSION = "1.12.20"
 $BASE_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v$SHERPA_VERSION"
-$FILENAME = "sherpa-onnx-v$SHERPA_VERSION-win-x64.zip"
+$FILENAME = "sherpa-onnx-v$SHERPA_VERSION-win-x64-shared.tar.bz2"
 $DOWNLOAD_URL = "$BASE_URL/$FILENAME"
 
 $OUTPUT_DIR = "runtimes/win-x64/native"
-$TEMP_ZIP = "$env:TEMP/sherpa.zip"
+$TEMP_FILE = "$env:TEMP/sherpa.tar.bz2"
+$TEMP_TAR = "$env:TEMP/sherpa.tar"
 
 Write-Host "Downloading Sherpa-ONNX from $DOWNLOAD_URL"
-Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $TEMP_ZIP
+Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $TEMP_FILE
 
-Write-Host "Extracting to $OUTPUT_DIR"
+# Extract .bz2 to .tar (PowerShell doesn't natively support bz2 but 7z is available on GitHub runners)
+Write-Host "Extracting bz2..."
+7z x $TEMP_FILE -o"$env:TEMP" -y
+
+Write-Host "Extracting tar..."
+7z x $TEMP_TAR -o"$env:TEMP/sherpa_extracted" -y
+
 if (!(Test-Path $OUTPUT_DIR)) {
     New-Item -ItemType Directory -Force -Path $OUTPUT_DIR | Out-Null
 }
 
-Expand-Archive -Path $TEMP_ZIP -DestinationPath "$env:TEMP/sherpa_extracted" -Force
-
 # Move the DLLs to the target runtime folder
-# Note: The zip structure usually contains a subfolder. Adjust logic based on actual zip content.
-# Assuming content is in extracted root or subfolder.
-$SourcePath = "$env:TEMP/sherpa_extracted/sherpa-onnx-v$SHERPA_VERSION-win-x64/bin/*.dll"
+# The tar extracts to a folder like sherpa-onnx-v1.12.20-win-x64-shared
+$SourceDir = "$env:TEMP/sherpa_extracted/sherpa-onnx-v$SHERPA_VERSION-win-x64-shared"
+if (Test-Path "$SourceDir/lib") {
+    Copy-Item -Path "$SourceDir/lib/*.dll" -Destination $OUTPUT_DIR -Force -ErrorAction SilentlyContinue
+}
+if (Test-Path "$SourceDir/bin") {
+    Copy-Item -Path "$SourceDir/bin/*.dll" -Destination $OUTPUT_DIR -Force -ErrorAction SilentlyContinue
+}
+# Some builds put dlls directly in the root or lib folder
+Copy-Item -Path "$SourceDir/*.dll" -Destination $OUTPUT_DIR -Force -ErrorAction SilentlyContinue
 
-Copy-Item -Path $SourcePath -Destination $OUTPUT_DIR -Force
 Write-Host "Sherpa DLLs placed in $OUTPUT_DIR"
+Get-ChildItem $OUTPUT_DIR
 
 # Clean up
-Remove-Item $TEMP_ZIP -Force
-Remove-Item "$env:TEMP/sherpa_extracted" -Recurse -Force
+Remove-Item $TEMP_FILE -Force -ErrorAction SilentlyContinue
+Remove-Item $TEMP_TAR -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:TEMP/sherpa_extracted" -Recurse -Force -ErrorAction SilentlyContinue
