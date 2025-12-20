@@ -1,0 +1,28 @@
+<Window
+    x:Class="ClassnoteX.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <NavigationView x:Name="NavView" 
+                        PaneDisplayMode="Left"
+                        IsSettingsVisible="True"
+                        SelectionChanged="NavView_SelectionChanged"
+                        Loaded="NavView_Loaded">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="Dashboard" Tag="DashboardPage" />
+                <NavigationViewItem Icon="Library" Content="Sessions" Tag="SessionListPage" />
+                <NavigationViewItem Icon="Calendar" Content="Calendar" Tag="CalendarPage" />
+            </NavigationView.MenuItems>
+            
+            <NavigationView.FooterMenuItems>
+                <!-- Add footer items if needed -->
+            </NavigationView.FooterMenuItems>
+
+            <Frame x:Name="ContentFrame" />
+        </NavigationView>
+    </Grid>
+</Window>

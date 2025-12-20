@@ -1,0 +1,65 @@
+name: Windows CI
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-test-package:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    env:
+      DOTNET_NOLOGO: true
+      CONFIGURATION: Release
+      SOLUTION_PATH: "ClassnoteX.sln"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Prepare Sherpa Runtime (DLLs)
+        shell: pwsh
+        run: |
+          ./scripts/ci/windows_prepare_sherpa.ps1
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION_PATH }} -c $env:CONFIGURATION --no-restore
+
+      - name: Test
+        run: dotnet test ${{ env.SOLUTION_PATH }} -c $env:CONFIGURATION --no-build
+
+      - name: Publish (Portable)
+        run: dotnet publish src/ClassnoteX.WinUI/ClassnoteX.WinUI.csproj -c $env:CONFIGURATION -p:WindowsAppSDKSelfContained=true -p:WindowsPackageType=None -o out/publish
+
+      - name: Zip Artifact
+        shell: pwsh
+        run: |
+          Compress-Archive -Path out/publish/* -DestinationPath out/ClassnoteX-Portable.zip -Force
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClassnoteX-Windows-${{ github.sha }}
+          path: |
+            out/ClassnoteX-Portable.zip
+          if-no-files-found: error

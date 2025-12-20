@@ -1,0 +1,31 @@
+{
+    "version": "1.0",
+    "updatedAt": "2024-12-20",
+    "models": {
+        "encoder": {
+            "name": "zipformer-ja-reazonspeech-encoder",
+            "url": "https://huggingface.co/classnotex/models/resolve/main/encoder.onnx",
+            "path": "encoder.onnx"
+        },
+        "decoder": {
+            "name": "zipformer-ja-reazonspeech-decoder",
+            "url": "https://huggingface.co/classnotex/models/resolve/main/decoder.onnx",
+            "path": "decoder.onnx"
+        },
+        "joiner": {
+            "name": "zipformer-ja-reazonspeech-joiner",
+            "url": "https://huggingface.co/classnotex/models/resolve/main/joiner.onnx",
+            "path": "joiner.onnx"
+        },
+        "tokens": {
+            "name": "tokens",
+            "url": "https://huggingface.co/classnotex/models/resolve/main/tokens.txt",
+            "path": "tokens.txt"
+        },
+        "vad": {
+             "name": "silero_vad",
+             "url": "https://huggingface.co/classnotex/models/resolve/main/silero_vad.onnx",
+             "path": "silero_vad.onnx"
+        }
+    }
+}
