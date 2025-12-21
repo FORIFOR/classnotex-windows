@@ -33,14 +33,14 @@ public sealed partial class MainWindow : Window
         }
         else if (args.SelectedItemContainer != null)
         {
-            var navItemTag = args.SelectedItemContainer.Tag.ToString();
+            var navItemTag = args.SelectedItemContainer.Tag?.ToString() ?? string.Empty;
             NavView_Navigate(navItemTag, args.RecommendedNavigationTransitionInfo);
         }
     }
 
     private void NavView_Navigate(string navItemTag, Microsoft.UI.Xaml.Media.Animation.NavigationTransitionInfo transitionInfo)
     {
-        Type _page = null;
+        Type? _page = null;
         if (navItemTag == "DashboardPage")
         {
              _page = typeof(DashboardPage);

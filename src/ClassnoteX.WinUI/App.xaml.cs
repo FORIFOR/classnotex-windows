@@ -1,9 +1,12 @@
 using Microsoft.UI.Xaml;
+using ClassnoteX.WinUI.Services;
 
 namespace ClassnoteX.WinUI;
 
 public partial class App : Application
 {
+    private Window? m_window;
+    
     public App()
     {
         this.InitializeComponent();
@@ -17,6 +20,6 @@ public partial class App : Application
         ServiceLocator.Initialize();
     }
 
-    public static Window CurrentWindow { get; private set; }
-    private Window m_window;
+    public static Window? CurrentWindow { get; private set; }
 }
+
