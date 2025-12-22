@@ -36,13 +36,13 @@
                         </Grid.ColumnDefinitions>
                         
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="{x:Bind Title}" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{x:Bind CreatedAt}" Foreground="Gray" />
+                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
+                            <TextBlock Text="{Binding CreatedAt}" Foreground="Gray" />
                         </StackPanel>
                         
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                              <Border Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" CornerRadius="4" Padding="6,2">
-                                <TextBlock Text="{x:Bind Status}" FontSize="12" />
+                                <TextBlock Text="{Binding Status}" FontSize="12" />
                              </Border>
                         </StackPanel>
                     </Grid>

@@ -20,10 +20,10 @@
                     <Button Command="{x:Bind ViewModel.GoBackCommand}" Background="Transparent" BorderThickness="0">
                         <SymbolIcon Symbol="Back" />
                     </Button>
-                    <TextBlock Text="{x:Bind ViewModel.SelectedSession.Title, Mode=OneWay}" 
+                    <TextBlock Text="{Binding ViewModel.SelectedSession.Title, Mode=OneWay}" 
                                Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
                     <Border Background="LightGray" CornerRadius="4" Padding="6,2" VerticalAlignment="Center" Margin="8,0,0,0">
-                         <TextBlock Text="{x:Bind ViewModel.SelectedSession.Status, Mode=OneWay}" FontSize="12" />
+                         <TextBlock Text="{Binding ViewModel.SelectedSession.Status, Mode=OneWay}" FontSize="12" />
                     </Border>
                 </StackPanel>
             </CommandBar.Content>
@@ -53,8 +53,8 @@
                      <!-- Meta -->
                      <StackPanel Spacing="8">
                           <TextBlock Text="Metadata" FontWeight="Bold" />
-                          <TextBlock Text="{x:Bind ViewModel.SelectedSession.CreatedAt, Mode=OneWay}" Foreground="Gray"/>
-                          <TextBlock Text="{x:Bind ViewModel.SelectedSession.Mode, Mode=OneWay}" Foreground="Gray"/>
+                          <TextBlock Text="{Binding ViewModel.SelectedSession.CreatedAt, Mode=OneWay}" Foreground="Gray"/>
+                          <TextBlock Text="{Binding ViewModel.SelectedSession.Mode, Mode=OneWay}" Foreground="Gray"/>
                      </StackPanel>
                  </StackPanel>
              </ScrollViewer>

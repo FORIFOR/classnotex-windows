@@ -8,7 +8,7 @@ $BASE_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v$SHERPA_VE
 $FILENAME = "sherpa-onnx-v$SHERPA_VERSION-win-x64-shared.tar.bz2"
 $DOWNLOAD_URL = "$BASE_URL/$FILENAME"
 
-$OUTPUT_DIR = "runtimes/win-x64/native"
+$OUTPUT_DIR = "src/ClassnoteX.WinUI/runtimes/win-x64/native"
 $TEMP_FILE = "$env:TEMP/sherpa.tar.bz2"
 $TEMP_TAR = "$env:TEMP/sherpa.tar"
 $EXTRACT_DIR = "$env:TEMP/sherpa_extracted"

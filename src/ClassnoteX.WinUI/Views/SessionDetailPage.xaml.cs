@@ -12,6 +12,7 @@ public sealed partial class SessionDetailPage : Page
     {
         this.InitializeComponent();
         ViewModel = new SessionDetailViewModel();
+        this.DataContext = this;
     }
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)

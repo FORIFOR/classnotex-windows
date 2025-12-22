@@ -25,4 +25,10 @@
     <ProjectReference Include="..\ClassnoteX.Core\ClassnoteX.Core.csproj" />
     <ProjectReference Include="..\ClassnoteX.Infrastructure\ClassnoteX.Infrastructure.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="runtimes\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
