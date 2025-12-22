@@ -50,13 +50,13 @@ if (!(Test-Path $OUTPUT_DIR)) {
 }
 
 # Search for DLLs recursively and copy them
-Write-Host "Searching for DLLs in extracted folder..."
+Write-Host "Searching for DLLs in extracted folder: $EXTRACT_DIR"
 $dlls = Get-ChildItem -Path $EXTRACT_DIR -Filter "*.dll" -Recurse
-if ($dlls.Count -eq 0) {
-    Write-Warning "No DLLs found in the extracted archive."
+if (@($dlls).Count -eq 0) {
+    Write-Warning "No DLLs found in the extracted archive: $EXTRACT_DIR"
 } else {
     foreach ($dll in $dlls) {
-        Write-Host "Copying $($dll.Name) to $OUTPUT_DIR"
+        Write-Host "Copying $($dll.Name) (from $($dll.FullName)) to $OUTPUT_DIR"
         Copy-Item -Path $dll.FullName -Destination $OUTPUT_DIR -Force
     }
 }
