@@ -11,37 +11,63 @@ $DOWNLOAD_URL = "$BASE_URL/$FILENAME"
 $OUTPUT_DIR = "runtimes/win-x64/native"
 $TEMP_FILE = "$env:TEMP/sherpa.tar.bz2"
 $TEMP_TAR = "$env:TEMP/sherpa.tar"
+$EXTRACT_DIR = "$env:TEMP/sherpa_extracted"
 
-Write-Host "Downloading Sherpa-ONNX from $DOWNLOAD_URL"
-Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $TEMP_FILE
+Write-Host "--- Sherpa-ONNX Preparation Start ---"
+Write-Host "Downloading from: $DOWNLOAD_URL"
 
-# Extract .bz2 to .tar (PowerShell doesn't natively support bz2 but 7z is available on GitHub runners)
+try {
+    Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile $TEMP_FILE -ErrorAction Stop
+} catch {
+    Write-Error "Failed to download Sherpa-ONNX. Check the URL and version. Error: $_"
+    exit 1
+}
+
+if (!(Test-Path $TEMP_FILE)) {
+    Write-Error "Download failed: $TEMP_FILE does not exist."
+    exit 1
+}
+
+$fileSize = (Get-Item $TEMP_FILE).Length
+Write-Host "Downloaded file size: $fileSize bytes"
+
+# Extract .bz2 to .tar
 Write-Host "Extracting bz2..."
-7z x $TEMP_FILE -o"$env:TEMP" -y
+7z x $TEMP_FILE -o"$env:TEMP" -y | Out-Null
 
+if (!(Test-Path $TEMP_TAR)) {
+    Write-Error "bz2 extraction failed: $TEMP_TAR does not exist."
+    exit 1
+}
+
+# Extract tar
 Write-Host "Extracting tar..."
-7z x $TEMP_TAR -o"$env:TEMP/sherpa_extracted" -y
+if (!(Test-Path $EXTRACT_DIR)) { New-Item -ItemType Directory -Path $EXTRACT_DIR }
+7z x $TEMP_TAR -o"$EXTRACT_DIR" -y | Out-Null
 
 if (!(Test-Path $OUTPUT_DIR)) {
     New-Item -ItemType Directory -Force -Path $OUTPUT_DIR | Out-Null
 }
 
-# Move the DLLs to the target runtime folder
-# The tar extracts to a folder like sherpa-onnx-v1.12.20-win-x64-shared
-$SourceDir = "$env:TEMP/sherpa_extracted/sherpa-onnx-v$SHERPA_VERSION-win-x64-shared"
-if (Test-Path "$SourceDir/lib") {
-    Copy-Item -Path "$SourceDir/lib/*.dll" -Destination $OUTPUT_DIR -Force -ErrorAction SilentlyContinue
+# Search for DLLs recursively and copy them
+Write-Host "Searching for DLLs in extracted folder..."
+$dlls = Get-ChildItem -Path $EXTRACT_DIR -Filter "*.dll" -Recurse
+if ($dlls.Count -eq 0) {
+    Write-Warning "No DLLs found in the extracted archive."
+} else {
+    foreach ($dll in $dlls) {
+        Write-Host "Copying $($dll.Name) to $OUTPUT_DIR"
+        Copy-Item -Path $dll.FullName -Destination $OUTPUT_DIR -Force
+    }
 }
-if (Test-Path "$SourceDir/bin") {
-    Copy-Item -Path "$SourceDir/bin/*.dll" -Destination $OUTPUT_DIR -Force -ErrorAction SilentlyContinue
-}
-# Some builds put dlls directly in the root or lib folder
-Copy-Item -Path "$SourceDir/*.dll" -Destination $OUTPUT_DIR -Force -ErrorAction SilentlyContinue
 
-Write-Host "Sherpa DLLs placed in $OUTPUT_DIR"
-Get-ChildItem $OUTPUT_DIR
+Write-Host "Sherpa DLLs currently in $OUTPUT_DIR:"
+Get-ChildItem $OUTPUT_DIR | Select-Object Name
 
 # Clean up
+Write-Host "Cleaning up... "
 Remove-Item $TEMP_FILE -Force -ErrorAction SilentlyContinue
 Remove-Item $TEMP_TAR -Force -ErrorAction SilentlyContinue
-Remove-Item "$env:TEMP/sherpa_extracted" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item $EXTRACT_DIR -Recurse -Force -ErrorAction SilentlyContinue
+
+Write-Host "--- Sherpa-ONNX Preparation Complete ---"
