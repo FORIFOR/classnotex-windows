@@ -14,10 +14,10 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        ServiceLocator.Initialize();
         m_window = new MainWindow();
         m_window.Activate();
         CurrentWindow = m_window;
-        ServiceLocator.Initialize();
     }
 
     public static Window? CurrentWindow { get; private set; }
