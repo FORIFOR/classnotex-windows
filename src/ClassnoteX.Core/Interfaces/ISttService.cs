@@ -13,5 +13,5 @@ public interface ISttService
     /// </summary>
     Task ProcessAudioBufferAsync(byte[] buffer, int bytesRead);
     
-    event EventHandler<TranscriptSegment> SegmentReceived;
+    event EventHandler<TranscriptSegment>? SegmentReceived;
 }

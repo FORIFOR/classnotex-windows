@@ -18,9 +18,6 @@ public class SherpaSttService : ISttService
     {
         if (_isInitialized) return;
         
-        // Silence unused event warning
-        if (false) SegmentReceived?.Invoke(this, null!);
-        
         await Task.Delay(500); 
         _isInitialized = true;
     }

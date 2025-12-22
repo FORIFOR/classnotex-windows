@@ -14,7 +14,7 @@ public class AudioRecorderService : IAudioRecorder
     private bool _isRecording;
     
     public bool IsRecording => _isRecording;
-    public event EventHandler<float>? AudioLevelChanged;
+    public event EventHandler<double>? AudioLevelChanged;
     public event EventHandler<(byte[] Buffer, int BytesRead)>? AudioDataAvailable;
 
     public async Task InitializeAsync()
@@ -30,8 +30,6 @@ public class AudioRecorderService : IAudioRecorder
         try 
         {
             await _mediaCapture.InitializeAsync(settings);
-            // AudioLevelChanged is required by the interface but not yet used
-            if (false) AudioLevelChanged?.Invoke(this, 0); 
         }
         catch (Exception ex)
         {

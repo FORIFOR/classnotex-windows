@@ -30,7 +30,7 @@ public partial class RecordingViewModel : ObservableObject
     private bool isRecording;
 
     [ObservableProperty]
-    private float audioLevel;
+    private double audioLevel;
 
     private DateTime _startTime;
     private DispatcherQueueTimer? _timer;

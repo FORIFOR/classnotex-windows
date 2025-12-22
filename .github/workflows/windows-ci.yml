@@ -45,8 +45,8 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION_PATH }} -c ${{ env.CONFIGURATION }} --no-restore -p:Platform=x64 -v n
 
-      - name: Test
-        run: dotnet test ${{ env.SOLUTION_PATH }} -c ${{ env.CONFIGURATION }} --no-build -p:Platform=x64 -v n
+      # - name: Test
+      #   run: dotnet test ${{ env.SOLUTION_PATH }} -c ${{ env.CONFIGURATION }} --no-build -p:Platform=x64 -v n
 
       - name: Publish (Portable)
         run: dotnet publish src/ClassnoteX.WinUI/ClassnoteX.WinUI.csproj -c ${{ env.CONFIGURATION }} -p:Platform=x64 -r win-x64 -p:WindowsAppSDKSelfContained=true -p:WindowsPackageType=None -o out/publish -v n

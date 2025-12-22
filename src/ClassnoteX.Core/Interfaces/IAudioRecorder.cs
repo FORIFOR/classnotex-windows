@@ -9,6 +9,6 @@ public interface IAudioRecorder
     Task InitializeAsync();
     Task StartRecordingAsync(string filePath);
     Task StopRecordingAsync();
-    event EventHandler<float> AudioLevelChanged; // For visualization
-    event EventHandler<(byte[] Buffer, int BytesRead)> AudioDataAvailable; // For streaming to STT
+    event EventHandler<double>? AudioLevelChanged; // For visualization
+    event EventHandler<(byte[] Buffer, int BytesRead)>? AudioDataAvailable; // For streaming to STT
 }
