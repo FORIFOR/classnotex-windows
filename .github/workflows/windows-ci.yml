@@ -43,13 +43,13 @@ jobs:
         run: dotnet restore ${{ env.SOLUTION_PATH }}
 
       - name: Build
-        run: dotnet build ${{ env.SOLUTION_PATH }} -c $env:CONFIGURATION --no-restore
+        run: dotnet build ${{ env.SOLUTION_PATH }} -c ${{ env.CONFIGURATION }} --no-restore -v n
 
       - name: Test
-        run: dotnet test ${{ env.SOLUTION_PATH }} -c $env:CONFIGURATION --no-build
+        run: dotnet test ${{ env.SOLUTION_PATH }} -c ${{ env.CONFIGURATION }} --no-build -v n
 
       - name: Publish (Portable)
-        run: dotnet publish src/ClassnoteX.WinUI/ClassnoteX.WinUI.csproj -c $env:CONFIGURATION -p:WindowsAppSDKSelfContained=true -p:WindowsPackageType=None -o out/publish
+        run: dotnet publish src/ClassnoteX.WinUI/ClassnoteX.WinUI.csproj -c ${{ env.CONFIGURATION }} -p:WindowsAppSDKSelfContained=true -p:WindowsPackageType=None -o out/publish -v n
 
       - name: Zip Artifact
         shell: pwsh

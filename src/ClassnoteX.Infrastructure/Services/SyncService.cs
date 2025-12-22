@@ -14,6 +14,10 @@ public class SyncService : ISyncService
     {
         _sessionRepository = sessionRepository;
         _apiClient = new ClassnoteApiClient();
+        
+        // Silence unused field warnings for now as this is a placeholder
+        _ = _sessionRepository;
+        _ = _apiClient;
     }
 
     public async Task SyncAsync()

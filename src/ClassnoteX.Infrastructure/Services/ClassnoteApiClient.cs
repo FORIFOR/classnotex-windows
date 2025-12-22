@@ -15,6 +15,9 @@ public class ClassnoteApiClient
         _httpClient = new HttpClient();
         // TODO: Set BaseAddress from config
         // _httpClient.BaseAddress = new System.Uri("https://api.classnote.app");
+        
+        // Silence unused field warning
+        _ = _httpClient;
     }
 
     public async Task<List<Session>> GetSessionsAsync()
