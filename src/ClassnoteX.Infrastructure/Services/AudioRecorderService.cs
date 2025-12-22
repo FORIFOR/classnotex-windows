@@ -14,7 +14,9 @@ public class AudioRecorderService : IAudioRecorder
     
     
     public bool IsRecording => _isRecording;
+#pragma warning disable CS0067 // Event is never used - audio level metering not yet implemented
     public event EventHandler<float>? AudioLevelChanged;
+#pragma warning restore CS0067
     public event EventHandler<(byte[] Buffer, int BytesRead)>? AudioDataAvailable;
 
     public async Task InitializeAsync()

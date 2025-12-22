@@ -10,7 +10,9 @@ namespace ClassnoteX.Infrastructure.Services;
 // For now, we simulate the structure. Real implementation uses P/Invoke or SherpaOnnx.NET wrapper.
 public class SherpaSttService : ISttService
 {
+#pragma warning disable CS0067 // Event is never used - Sherpa-ONNX integration pending
     public event EventHandler<TranscriptSegment>? SegmentReceived;
+#pragma warning restore CS0067
 
     private bool _isInitialized = false;
 
