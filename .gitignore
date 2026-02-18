@@ -2,15 +2,51 @@
 *.swp
 *.*~
 project.lock.json
-.DS_Store
 *.pyc
 
 # Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+arm64/
 [Bb]in/
 [Oo]bj/
+[Ll]og/
+[Ll]ogs/
 
 # Visual Studio
 .vs/
 *.user
 *.suo
 *.userprefs
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# App settings with secrets
+appsettings.json
+appsettings.*.json
+
+# Sherpa ONNX model files (large binaries, top-level only)
+/models/
+
+# Windows specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# MSIX packaging
+*.msix
+*.appx
+*.appxbundle
+*.msixbundle

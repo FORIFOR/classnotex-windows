@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="DeepNoteWindows.Views.SessionListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DeepNoteWindows.Views"
+    xmlns:models="using:DeepNoteWindows.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ヘッダー -->
+        <Grid Grid.Row="0" Padding="24,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="議事録一覧" FontSize="28" FontWeight="Bold" />
+                <TextBlock x:Name="UserNameText" FontSize="14" Foreground="Gray" Margin="0,4,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                <Button Click="OnRefreshClick" ToolTipService.ToolTip="更新">
+                    <FontIcon Glyph="&#xE72C;" />
+                </Button>
+                <Button Click="OnSignOutClick" ToolTipService.ToolTip="ログアウト">
+                    <FontIcon Glyph="&#xF3B1;" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- 新規作成 -->
+        <Grid Grid.Row="1" Padding="24,0,24,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="NewSessionTitleBox"
+                     Grid.Column="0"
+                     PlaceholderText="新しい議事録のタイトル..."
+                     KeyDown="OnTitleBoxKeyDown" />
+
+            <Button Grid.Column="1"
+                    Click="OnCreateSessionClick"
+                    Margin="8,0,0,0"
+                    Style="{StaticResource AccentButtonStyle}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE710;" FontSize="14" />
+                    <TextBlock Text="新規作成" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- セッション一覧 -->
+        <Grid Grid.Row="2">
+            <!-- ローディング -->
+            <ProgressRing x:Name="LoadingRing"
+                          IsActive="False"
+                          Width="48" Height="48"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+
+            <!-- エラーメッセージ -->
+            <TextBlock x:Name="ErrorText"
+                       Foreground="Red"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Margin="0,16,0,0"
+                       Visibility="Collapsed" />
+
+            <!-- 一覧 -->
+            <ListView x:Name="SessionsListView"
+                      Padding="16,0"
+                      SelectionMode="None"
+                      ItemClick="OnSessionClick"
+                      IsItemClickEnabled="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Session">
+                        <Grid Padding="8" Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- タイトル -->
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="{x:Bind Title}"
+                                       FontSize="16" FontWeight="SemiBold"
+                                       TextTrimming="CharacterEllipsis" />
+
+                            <!-- ステータス -->
+                            <Border Grid.Row="0" Grid.Column="1"
+                                    Background="{ThemeResource SystemAccentColor}"
+                                    CornerRadius="4"
+                                    Padding="8,2">
+                                <TextBlock Text="{x:Bind Status}"
+                                           FontSize="12"
+                                           Foreground="White" />
+                            </Border>
+
+                            <!-- プレビュー -->
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                                       Text="{x:Bind TranscriptText}"
+                                       FontSize="13"
+                                       Foreground="Gray"
+                                       TextTrimming="CharacterEllipsis"
+                                       MaxLines="2"
+                                       Margin="0,4,0,0" />
+
+                            <!-- 情報 -->
+                            <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
+                                        Orientation="Horizontal"
+                                        Spacing="16"
+                                        Margin="0,8,0,0">
+                                <TextBlock FontSize="12" Foreground="Gray">
+                                    <Run Text="文字数:" />
+                                    <Run Text="{x:Bind TranscriptTextLen}" />
+                                </TextBlock>
+                                <TextBlock FontSize="12" Foreground="Gray">
+                                    <Run Text="チャンク:" />
+                                    <Run Text="{x:Bind TranscriptChunkCount}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- 空の状態 -->
+            <StackPanel x:Name="EmptyStatePanel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="Collapsed">
+                <FontIcon Glyph="&#xE8F1;" FontSize="48" Foreground="Gray" />
+                <TextBlock Text="議事録がありません"
+                           FontSize="16"
+                           Foreground="Gray"
+                           Margin="0,16,0,0"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="上の入力欄から新しい議事録を作成してください"
+                           FontSize="13"
+                           Foreground="Gray"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
