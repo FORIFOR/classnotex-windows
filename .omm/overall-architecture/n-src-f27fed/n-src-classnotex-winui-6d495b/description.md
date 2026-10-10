@@ -1,0 +1,24 @@
+実在パス: `src/ClassnoteX.WinUI`。22ファイル。
+
+- `src/ClassnoteX.WinUI/App.xaml`
+- `src/ClassnoteX.WinUI/App.xaml.cs`
+- `src/ClassnoteX.WinUI/Assets/Logo.png`
+- `src/ClassnoteX.WinUI/ClassnoteX.WinUI.csproj`
+- `src/ClassnoteX.WinUI/Converters/BoolNegationConverter.cs`
+- `src/ClassnoteX.WinUI/MainWindow.xaml`
+- `src/ClassnoteX.WinUI/MainWindow.xaml.cs`
+- `src/ClassnoteX.WinUI/Services/NavigationService.cs`
+- `src/ClassnoteX.WinUI/Services/ServiceLocator.cs`
+- `src/ClassnoteX.WinUI/ViewModels/DashboardViewModel.cs`
+- `src/ClassnoteX.WinUI/ViewModels/RecordingViewModel.cs`
+- `src/ClassnoteX.WinUI/ViewModels/SessionDetailViewModel.cs`
+- `src/ClassnoteX.WinUI/ViewModels/SessionListViewModel.cs`
+- `src/ClassnoteX.WinUI/Views/DashboardPage.xaml`
+- `src/ClassnoteX.WinUI/Views/DashboardPage.xaml.cs`
+- `src/ClassnoteX.WinUI/Views/RecordingPage.xaml`
+- `src/ClassnoteX.WinUI/Views/RecordingPage.xaml.cs`
+- `src/ClassnoteX.WinUI/Views/SessionDetailPage.xaml`
+- `src/ClassnoteX.WinUI/Views/SessionDetailPage.xaml.cs`
+- `src/ClassnoteX.WinUI/Views/SessionListPage.xaml`
+- `src/ClassnoteX.WinUI/Views/SessionListPage.xaml.cs`
+- `src/ClassnoteX.WinUI/app.manifest`

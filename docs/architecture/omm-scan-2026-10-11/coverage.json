@@ -1,0 +1,34 @@
+{
+  "repo": "FORIFOR/classnotex-windows",
+  "branch": "main",
+  "tree_sha": "d0bdb359125e832093ad8b2cce72b83abc5adbc5",
+  "tree_files": 80,
+  "read_files": [
+    {
+      "path": "DeepNoteWindows/DeepNoteWindows.csproj",
+      "sha": "4035073a3c37996c9b754a5f2a1c54d0407bb5e5"
+    },
+    {
+      "path": "src/ClassnoteX.Core/ClassnoteX.Core.csproj",
+      "sha": "5f04d938ef62dc5a2377187bc8a1abb45edb401b"
+    },
+    {
+      "path": "src/ClassnoteX.Infrastructure/ClassnoteX.Infrastructure.csproj",
+      "sha": "4c3a748d4a553f50a80bf12aa9a7a391402c6164"
+    },
+    {
+      "path": "src/ClassnoteX.WinUI/ClassnoteX.WinUI.csproj",
+      "sha": "c768220d143e80257d04b0a76fdb6795d2bdb982"
+    },
+    {
+      "path": "DeepNoteWindows/App.xaml.cs",
+      "sha": "a9a927b1b3967a375add87beb10d3af6efa6534a"
+    },
+    {
+      "path": "DeepNoteWindows/MainWindow.xaml.cs",
+      "sha": "bc37040423057d8232aa02c97a866d57a5208116"
+    }
+  ],
+  "not_read_count": 74,
+  "scope": "initial entry-point and direct-import analysis; not exhaustive semantic scan"
+}
